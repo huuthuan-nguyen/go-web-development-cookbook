@@ -28,53 +28,52 @@ var routes = Routes{
 		getEmployees,
 	},
 	Route{
-		"getEmployee",
-		"GET",
-		"/employees/{id}",
-		getEmployee,
+		"addEmployee",
+		"POST",
+		"/employees",
+		addEmployee,
 	},
 }
-
 type Employee struct {
 	Id string `json:"id"`
 	FirstName string `json:"firstName"`
 	LastName string `json:"lastName"`
 }
+
 type Employees []Employee
 var employees Employees
 
 func init() {
 	employees = Employees{
 		Employee{
-			Id: "1",
-			FirstName: "Foo",
-			LastName: "Bar",
+			"1",
+			"Foo",
+			"Bar",
 		},
 		Employee{
-			Id: "2",
-			FirstName: "Baz",
-			LastName: "Qux",
+			"2",
+			"Baz",
+			"Quz",
 		},
 	}
 }
 
 func getEmployees(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	json.NewEncoder(w).Encode(employees)
 }
 
-func getEmployee(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	for _, employee := range employees {
-		if employee.Id == id {
-			w.Header().Set("Content-Type", "application/json;chartset=utf-8")
-			if err := json.NewEncoder(w).Encode(employee); err != nil {
-				log.Print("error getting request employee :: ", err)
-			}
-		}
+func addEmployee(w http.ResponseWriter, r *http.Request) {
+	employee := Employee{}
+	err := json.NewDecoder(r.Body).Decode(&employee)
+	if err != nil {
+		log.Print("error occurred while decoding employee data :: ", err)
+		return
 	}
+	log.Printf("adding employee id :: %s with firstName as :: %s and lastName as :: %s", employee.Id, employee.FirstName, employee.LastName)
+	employees = append(employees, employee)
+	w.Header().Set("Content-Type", "application/json;charset=utf-8")
+	json.NewEncoder(w).Encode(employee)
 }
 
 func AddRoutes(router *mux.Router) *mux.Router {
@@ -87,7 +86,6 @@ func AddRoutes(router *mux.Router) *mux.Router {
 func main() {
 	muxRouter := mux.NewRouter().StrictSlash(true)
 	router := AddRoutes(muxRouter)
-
 	err := http.ListenAndServe(CONNECTION_HOST+":"+CONNECTION_PORT, router)
 	if err != nil {
 		log.Fatal("error starting http server :: ", err)
