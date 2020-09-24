@@ -102,3 +102,11 @@ message SearchResponse {
     repeated Result results = 1;
 }
 ```
+## Update message type rules
+- Don't change field number of existing fields.
+- Old code will ignore new field, new code can use the old message with default value.
+- Reserve field number or field name which are removed.
+- `int32`, `int64`, `unint32`, `unit64` are all compatible.
+- `sint32` and `sint64` are compatible with each other.
+- `string` and `bytes` are compatible with each other.
+- message and `bytes` are compatible with each other in case `bytes` contains an encoded version of message.
