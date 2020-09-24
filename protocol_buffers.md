@@ -1,14 +1,14 @@
 # Introduction
 
-###### Protocol Buffer is a kind of  encoded structured data similar to JSON with advantages:
+Protocol Buffer is a kind of  encoded structured data similar to JSON with advantages:
 - smaller
 - faster
 - simpler
 
-###### Use Protocol Buffers to exchange data bring great performance.
+Use Protocol Buffers to exchange data bring great performance.
 
 # Protocol Buffers Interface Definition Language
-###### Protocol buffers are saved as `*.proto` file.
+Protocol buffers are saved as `*.proto` file.
 
 ```
 syntax = "proto3";
@@ -39,11 +39,11 @@ message SearchRequest {
 }
 ```
 
-###### The first line declares the syntax version proto file, default is version 2. The first line of proto file must be non-empty, non-comment
+The first line declares the syntax version proto file, default is version 2. The first line of proto file must be non-empty, non-comment
 
 Field number use to identify fields in binary message format, should not be changed once your message type is in use. Number from 1 to 15 take 1 byte to encode (should use in frequent message), number from 16 to 2047 take 2 bytes to encode.
 
-###### Field rules: singular and repeated.
-###### Reserved field
-###### Field can be `optional` or `required`
-###### You can define an Enumuration Type for pre-defined value list. We can alias value in Enum by using `option allow_alias = true;`
+Field rules: singular and repeated.
+Reserved field
+Field can be `optional` or `required`
+You can define an Enumuration Type for pre-defined value list. We can alias value in Enum by using `option allow_alias = true;`
