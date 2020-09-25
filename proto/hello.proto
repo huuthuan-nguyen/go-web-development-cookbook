@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "example.com/foo/bar";
+option go_package = ".;helloproto";
 
 service Say {
     rpc Hello(Request) returns (Response) {}
